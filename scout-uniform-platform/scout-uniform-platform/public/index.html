@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scout Uniform Platform</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">🏕️ Scout Uniform Order</div>
+      <nav id="nav">
+        <button onclick="showPage('shop')" class="nav-btn">Shop</button>
+        <button onclick="showPage('myorders')" class="nav-btn" id="btn-myorders" style="display:none">My Orders</button>
+        <button onclick="showPage('admin')" class="nav-btn" id="btn-admin" style="display:none">Admin</button>
+        <span id="user-info" class="user-info"></span>
+        <button onclick="logout()" class="nav-btn danger" id="btn-logout" style="display:none">Logout</button>
+      </nav>
+    </header>
+
+    <!-- Login / Register -->
+    <section id="page-auth" class="page">
+      <div class="card auth-card">
+        <h2 id="auth-title">Login</h2>
+        <div id="auth-error" class="error"></div>
+        <form id="auth-form" onsubmit="handleAuth(event)">
+          <div id="name-field" style="display:none">
+            <label>Name</label>
+            <input type="text" id="auth-name" placeholder="Your full name" />
+          </div>
+          <label>Email</label>
+          <input type="email" id="auth-email" required placeholder="email@example.com" />
+          <label>Password</label>
+          <input type="password" id="auth-password" required placeholder="Password" />
+          <button type="submit" class="btn primary" id="auth-submit">Login</button>
+        </form>
+        <p class="switch">
+          <span id="switch-text">Don't have an account?</span>
+          <a href="#" onclick="toggleAuthMode(event)" id="switch-link">Register</a>
+        </p>
+        <p class="hint">Demo admin: <code>admin@scout.local</code> / <code>admin123</code></p>
+      </div>
+    </section>
+
+    <!-- Shop -->
+    <section id="page-shop" class="page" style="display:none">
+      <h2>Uniform Items</h2>
+      <div id="product-list" class="grid"></div>
+      <div class="cart-panel">
+        <h3>Cart (<span id="cart-count">0</span>)</h3>
+        <div id="cart-items"></div>
+        <div class="cart-total">Total: $<span id="cart-total">0</span></div>
+        <button class="btn primary" onclick="placeOrder()" id="btn-place-order" disabled>Place Order & Generate Invoice</button>
+      </div>
+    </section>
+
+    <!-- My Orders -->
+    <section id="page-myorders" class="page" style="display:none">
+      <h2>My Orders</h2>
+      <div id="my-orders-list"></div>
+    </section>
+
+    <!-- Admin -->
+    <section id="page-admin" class="page" style="display:none">
+      <h2>Admin Dashboard</h2>
+      <div id="admin-stats" class="stats"></div>
+      <h3>All Orders</h3>
+      <div class="filters">
+        <button class="btn small" onclick="loadAdminOrders('all')">All</button>
+        <button class="btn small" onclick="loadAdminOrders('pending')">Pending</button>
+        <button class="btn small" onclick="loadAdminOrders('paid')">Paid</button>
+      </div>
+      <div id="admin-orders-list"></div>
+    </section>
+  </div>
+
+  <!-- Receipt upload modal -->
+  <div id="modal" class="modal" style="display:none">
+    <div class="modal-content">
+      <h3>Upload Payment Receipt</h3>
+      <p>Order: <strong id="modal-order-id"></strong></p>
+      <input type="file" id="receipt-file" accept="image/*,.pdf" />
+      <div class="modal-actions">
+        <button class="btn" onclick="closeModal()">Cancel</button>
+        <button class="btn primary" onclick="uploadReceipt()">Upload & Mark Paid</button>
+      </div>
+      <div id="modal-error" class="error"></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
